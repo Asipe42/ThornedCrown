@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TCAbilitySystemComponent.h"
+#include "TCAttributeSet.h"
 #include "GameFramework/Character.h"
 #include "TCCharacterBase.generated.h"
 
@@ -14,17 +16,16 @@ class SAMPLE_API ATCCharacterBase : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ATCCharacterBase();
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void UnPossessed() override;
+
+	void GetActiveAbilitiesWithTags(const FGameplayTagContainer& GameplayTagContainer, TArray<UTCGameplayAbility*>& ActiveAbilities) const;
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UPROPERTY()
+	UTCAbilitySystemComponent* AbilitySystemComponent;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	
+	UPROPERTY()
+	UTCAttributeSet* AttributeSet;
 };

@@ -9,26 +9,30 @@ ATCCharacterBase::ATCCharacterBase()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	AbilitySystemComponent = CreateDefaultSubobject<UTCAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+
+	AttributeSet = CreateDefaultSubobject<UTCAttributeSet>(TEXT("AttributeSet"));
 }
 
-// Called when the game starts or when spawned
-void ATCCharacterBase::BeginPlay()
+void ATCCharacterBase::PossessedBy(AController* NewController)
 {
-	Super::BeginPlay();
-	
+	Super::PossessedBy(NewController);
+
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	}
 }
 
-// Called every frame
-void ATCCharacterBase::Tick(float DeltaTime)
+void ATCCharacterBase::UnPossessed()
 {
-	Super::Tick(DeltaTime);
-
+	Super::UnPossessed();
 }
 
-// Called to bind functionality to input
-void ATCCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ATCCharacterBase::GetActiveAbilitiesWithTags(const FGameplayTagContainer& GameplayTagContainer,TArray<UTCGameplayAbility*>& ActiveAbilities) const
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->GetActiveAbilitiesWithTags(GameplayTagContainer, ActiveAbilities);
+	}
 }
-

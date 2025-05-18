@@ -3,3 +3,24 @@
 
 #include "TCAbilitySystemComponent.h"
 
+#include "TCGameplayAbility.h"
+
+UTCAbilitySystemComponent::UTCAbilitySystemComponent()
+{
+}
+
+void UTCAbilitySystemComponent::GetActiveAbilitiesWithTags(const FGameplayTagContainer& GameplayTagContainer, TArray<UTCGameplayAbility*>& ActiveAbilities) const
+{
+	TArray<FGameplayAbilitySpec*> ActivateSpecs;
+	GetActivatableGameplayAbilitySpecsByAllMatchingTags(GameplayTagContainer, ActivateSpecs, false);
+
+	for (const auto Spec : ActivateSpecs)
+	{
+		TArray<UGameplayAbility*> AbilityInstances = Spec->GetAbilityInstances();
+
+		for (UGameplayAbility* ActiveAbility : AbilityInstances)
+		{
+			ActiveAbilities.Add(Cast<UTCGameplayAbility>(ActiveAbility));
+		}
+	}
+}
