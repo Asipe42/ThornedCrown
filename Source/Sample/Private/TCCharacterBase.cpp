@@ -46,15 +46,11 @@ void ATCCharacterBase::InitializeAbilities()
 
 void ATCCharacterBase::InitializeDefaultAbilities()
 {
-	UE_LOG(LogTemp, Log, TEXT("ATCCharacterBase::InitializeDefaultAbilities"));
 }
 
 void ATCCharacterBase::InitializeSlottedAbilities()
 {
-	UE_LOG(LogTemp, Log, TEXT("ATCCharacterBase::InitializeSlottedAbilities"));
-
 	FGameplayAbilitySpec SlottedAbilitySpec = FGameplayAbilitySpec(Item->GrantedAbility, Item->AbilityLevel);
-	
 	SlottedAbilities = AbilitySystemComponent->GiveAbility(SlottedAbilitySpec);
 }
 
