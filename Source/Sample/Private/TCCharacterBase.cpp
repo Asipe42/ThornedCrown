@@ -29,10 +29,23 @@ void ATCCharacterBase::UnPossessed()
 	Super::UnPossessed();
 }
 
-void ATCCharacterBase::GetActiveAbilitiesWithTags(const FGameplayTagContainer& GameplayTagContainer,TArray<UTCGameplayAbility*>& ActiveAbilities) const
+void ATCCharacterBase::GetActiveAbilitiesWithTags(FGameplayTagContainer GameplayTagContainer,TArray<UTCGameplayAbility*>& ActiveAbilities) const
 {
 	if (AbilitySystemComponent)
 	{
 		AbilitySystemComponent->GetActiveAbilitiesWithTags(GameplayTagContainer, ActiveAbilities);
 	}
+}
+
+bool ATCCharacterBase::ActivateAbilities(bool bAllowRemoteActivation)
+{
+	if (AbilitySystemComponent)
+	{
+		FGameplayTagContainer TagContainer;
+		TagContainer.AddTag(FGameplayTag::RequestGameplayTag("Ability.Melee"));
+		
+		return AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer, bAllowRemoteActivation);
+	}
+
+	return false;
 }

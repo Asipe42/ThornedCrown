@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TCAbilitySystemComponent.h"
-#include "TCAttributeSet.h"
+#include "Ability/TCAbilitySystemComponent.h"
+#include "Ability/TCAttributeSet.h"
 #include "GameFramework/Character.h"
 #include "TCCharacterBase.generated.h"
 
@@ -14,12 +14,15 @@ class SAMPLE_API ATCCharacterBase : public ACharacter
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	ATCCharacterBase();
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void UnPossessed() override;
 
-	void GetActiveAbilitiesWithTags(const FGameplayTagContainer& GameplayTagContainer, TArray<UTCGameplayAbility*>& ActiveAbilities) const;
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	void GetActiveAbilitiesWithTags(FGameplayTagContainer GameplayTagContainer, TArray<UTCGameplayAbility*>& ActiveAbilities) const;
+
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	bool ActivateAbilities(bool bAllowRemoteActivation = true);
 
 protected:
 
