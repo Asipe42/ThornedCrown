@@ -17,7 +17,6 @@ class SAMPLE_API UTCItem : public UPrimaryDataAsset
 
 public:
 
-	// ============================== Ability ==============================
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Abilities)
 	TSubclassOf<UTCGameplayAbility> GrantedAbility;
 

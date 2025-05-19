@@ -6,6 +6,7 @@
 #include "Ability/TCAbilitySystemComponent.h"
 #include "Ability/TCAttributeSet.h"
 #include "GameFramework/Character.h"
+#include "Item/TCItem.h"
 #include "TCCharacterBase.generated.h"
 
 UCLASS()
@@ -17,6 +18,10 @@ public:
 	ATCCharacterBase();
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void UnPossessed() override;
+	
+	void InitializeAbilities();
+	void InitializeDefaultAbilities();
+	void InitializeSlottedAbilities();
 
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	void GetActiveAbilitiesWithTags(FGameplayTagContainer GameplayTagContainer, TArray<UTCGameplayAbility*>& ActiveAbilities) const;
@@ -31,4 +36,11 @@ protected:
 
 	UPROPERTY()
 	UTCAttributeSet* AttributeSet;
+
+	// 임시
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	FGameplayAbilitySpecHandle SlottedAbilities;
+
+	UPROPERTY(EditAnywhere)
+	UTCItem* Item;
 };

@@ -3,6 +3,8 @@
 
 #include "TCCharacterBase.h"
 
+#include "Item/TCItem.h"
+
 // Sets default values
 ATCCharacterBase::ATCCharacterBase()
 {
@@ -21,12 +23,39 @@ void ATCCharacterBase::PossessedBy(AController* NewController)
 	if (AbilitySystemComponent)
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+		InitializeAbilities();
 	}
 }
 
 void ATCCharacterBase::UnPossessed()
 {
 	Super::UnPossessed();
+}
+
+void ATCCharacterBase::InitializeAbilities()
+{
+	check(AbilitySystemComponent);
+
+	if (GetLocalRole() == ROLE_Authority)
+	{
+		InitializeDefaultAbilities();	
+	}
+
+	InitializeSlottedAbilities();
+}
+
+void ATCCharacterBase::InitializeDefaultAbilities()
+{
+	UE_LOG(LogTemp, Log, TEXT("ATCCharacterBase::InitializeDefaultAbilities"));
+}
+
+void ATCCharacterBase::InitializeSlottedAbilities()
+{
+	UE_LOG(LogTemp, Log, TEXT("ATCCharacterBase::InitializeSlottedAbilities"));
+
+	FGameplayAbilitySpec SlottedAbilitySpec = FGameplayAbilitySpec(Item->GrantedAbility, Item->AbilityLevel);
+	
+	SlottedAbilities = AbilitySystemComponent->GiveAbility(SlottedAbilitySpec);
 }
 
 void ATCCharacterBase::GetActiveAbilitiesWithTags(FGameplayTagContainer GameplayTagContainer,TArray<UTCGameplayAbility*>& ActiveAbilities) const
@@ -41,10 +70,7 @@ bool ATCCharacterBase::ActivateAbilities(bool bAllowRemoteActivation)
 {
 	if (AbilitySystemComponent)
 	{
-		FGameplayTagContainer TagContainer;
-		TagContainer.AddTag(FGameplayTag::RequestGameplayTag("Ability.Melee"));
-		
-		return AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer, bAllowRemoteActivation);
+		return AbilitySystemComponent->TryActivateAbility(SlottedAbilities, bAllowRemoteActivation);
 	}
 
 	return false;
