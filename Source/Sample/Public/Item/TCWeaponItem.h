@@ -13,5 +13,9 @@ UCLASS()
 class SAMPLE_API UTCWeaponItem : public UTCItem
 {
 	GENERATED_BODY()
-	
+
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintreadOnly, Category = Weapon)
+	TSubclassOf<AActor> WeaponActor;
 };

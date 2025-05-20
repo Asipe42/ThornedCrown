@@ -3,3 +3,6 @@
 
 #include "TCPlayerControllerBase.h"
 
+void ATCPlayerControllerBase::GetSlottedItems(TArray<UTCItem*>& Items, FPrimaryAssetType ItemType, bool bOutputEmptyIndexes)
+{
+}
