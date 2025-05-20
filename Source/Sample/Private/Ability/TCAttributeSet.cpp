@@ -3,3 +3,7 @@
 
 #include "Ability/TCAttributeSet.h"
 
+void UTCAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
+	Super::PreAttributeChange(Attribute, NewValue);
+}

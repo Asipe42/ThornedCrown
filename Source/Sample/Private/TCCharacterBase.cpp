@@ -54,6 +54,16 @@ void ATCCharacterBase::InitializeSlottedAbilities()
 	SlottedAbilities = AbilitySystemComponent->GiveAbility(SlottedAbilitySpec);
 }
 
+float ATCCharacterBase::GetHealth() const
+{
+	return AttributeSet->GetHealth();
+}
+
+float ATCCharacterBase::GetMaxHealth() const
+{
+	return AttributeSet->GetMaxHealth();
+}
+
 void ATCCharacterBase::GetActiveAbilitiesWithTags(FGameplayTagContainer GameplayTagContainer,TArray<UTCGameplayAbility*>& ActiveAbilities) const
 {
 	if (AbilitySystemComponent)

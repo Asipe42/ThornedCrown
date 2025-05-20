@@ -23,6 +23,12 @@ public:
 	void InitializeDefaultAbilities();
 	void InitializeSlottedAbilities();
 
+	UFUNCTION(BlueprintCallable)
+	float GetHealth() const;
+
+	UFUNCTION(BlueprintCallable)
+	float GetMaxHealth() const;
+
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	void GetActiveAbilitiesWithTags(FGameplayTagContainer GameplayTagContainer, TArray<UTCGameplayAbility*>& ActiveAbilities) const;
 
