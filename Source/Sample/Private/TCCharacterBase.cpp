@@ -36,16 +36,32 @@ void ATCCharacterBase::InitializeAbilities()
 {
 	check(AbilitySystemComponent);
 
-	if (GetLocalRole() == ROLE_Authority)
-	{
-		InitializeDefaultAbilities();	
-	}
-
+	InitializePassive();
+	InitializeDefaultAbilities();	
 	InitializeSlottedAbilities();
+}
+
+void ATCCharacterBase::InitializePassive()
+{
+	for (TSubclassOf<UGameplayEffect>& GameplayEffect : Passive)
+	{
+		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+		EffectContext.AddSourceObject(this);
+
+		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(GameplayEffect, 1, EffectContext);
+		if (NewHandle.IsValid())
+		{
+			FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(), AbilitySystemComponent);
+		}
+	}
 }
 
 void ATCCharacterBase::InitializeDefaultAbilities()
 {
+	if (GetLocalRole() != ROLE_Authority)
+	{
+		return;
+	}
 }
 
 void ATCCharacterBase::InitializeSlottedAbilities()

@@ -20,6 +20,7 @@ public:
 	virtual void UnPossessed() override;
 	
 	void InitializeAbilities();
+	void InitializePassive();
 	void InitializeDefaultAbilities();
 	void InitializeSlottedAbilities();
 
@@ -43,7 +44,9 @@ protected:
 	UPROPERTY()
 	UTCAttributeSet* AttributeSet;
 
-	// 임시
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Abilities)
+	TArray<TSubclassOf<UGameplayEffect>> Passive;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FGameplayAbilitySpecHandle SlottedAbilities;
 
