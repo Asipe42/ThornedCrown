@@ -16,7 +16,12 @@ class SAMPLE_API ATCPlayerControllerBase : public APlayerController
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	void GetInventoryItems(TArray<UTCItem*>& OutItems, FPrimaryAssetType ItemType);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	void GetSlottedItems(TArray<UTCItem*>& Items, FPrimaryAssetType ItemType, bool bOutputEmptyIndexes);
+	void AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel);
+
+protected:
+	TArray<UTCItem*> InventoryItems;
 };

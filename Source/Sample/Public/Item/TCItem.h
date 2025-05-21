@@ -16,7 +16,9 @@ class SAMPLE_API UTCItem : public UPrimaryDataAsset
 	GENERATED_BODY()
 
 public:
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
+	FPrimaryAssetType ItemType;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Abilities)
 	TSubclassOf<UTCGameplayAbility> GrantedAbility;
 
