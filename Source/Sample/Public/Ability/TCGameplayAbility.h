@@ -15,5 +15,9 @@ class SAMPLE_API UTCGameplayAbility : public UGameplayAbility
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable, Category = Ability)
+	void ApplyEffectTest(TSubclassOf<UGameplayEffect> GameplayEffect);
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = GameplayEffect)
 	TSubclassOf<UGameplayEffect> GameplayEffectClass;
 };
