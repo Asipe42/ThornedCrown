@@ -3,7 +3,7 @@
 
 #include "Ability/TCAbilitySystemComponent.h"
 
-#include "TCGameplayAbility.h"
+#include "Ability/TCGameplayAbility.h"
 
 UTCAbilitySystemComponent::UTCAbilitySystemComponent()
 {

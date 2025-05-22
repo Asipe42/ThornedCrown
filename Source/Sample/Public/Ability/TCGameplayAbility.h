@@ -13,5 +13,7 @@ UCLASS()
 class SAMPLE_API UTCGameplayAbility : public UGameplayAbility
 {
 	GENERATED_BODY()
-	
+
+public:
+	TSubclassOf<UGameplayEffect> GameplayEffectClass;
 };

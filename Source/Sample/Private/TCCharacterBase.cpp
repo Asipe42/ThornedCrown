@@ -3,6 +3,7 @@
 
 #include "TCCharacterBase.h"
 
+#include "TCAssetManager.h"
 #include "Item/TCItem.h"
 
 // Sets default values
@@ -20,6 +21,8 @@ void ATCCharacterBase::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
+	InventoryInterface = NewController;
+	
 	if (AbilitySystemComponent)
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
@@ -66,8 +69,7 @@ void ATCCharacterBase::InitializeDefaultAbilities()
 
 void ATCCharacterBase::InitializeSlottedAbilities()
 {
-	FGameplayAbilitySpec SlottedAbilitySpec = FGameplayAbilitySpec(Item->GrantedAbility, Item->AbilityLevel);
-	SlottedAbilities = AbilitySystemComponent->GiveAbility(SlottedAbilitySpec);
+
 }
 
 float ATCCharacterBase::GetHealth() const
@@ -92,7 +94,15 @@ bool ATCCharacterBase::ActivateAbilities(bool bAllowRemoteActivation)
 {
 	if (AbilitySystemComponent)
 	{
-		return AbilitySystemComponent->TryActivateAbility(SlottedAbilities, bAllowRemoteActivation);
+		TArray<UTCItem*> Items;
+		InventoryInterface->GetInventoryItemsWithType(Items, UTCAssetManager::PotionItemType);
+
+		if (Items.Num() > 0)
+		{
+			FGameplayAbilitySpec spec = FGameplayAbilitySpec(Items[0]->GrantedAbility, Items[0]->AbilityLevel, INDEX_NONE, this);
+			FGameplayAbilitySpecHandle specHandle = AbilitySystemComponent->GiveAbility(spec);
+			AbilitySystemComponent->TryActivateAbility(specHandle, bAllowRemoteActivation);
+		}
 	}
 
 	return false;

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TCInventoryInterface.h"
 #include "Ability/TCAbilitySystemComponent.h"
 #include "Ability/TCAttributeSet.h"
 #include "GameFramework/Character.h"
@@ -37,7 +38,8 @@ public:
 	bool ActivateAbilities(bool bAllowRemoteActivation = true);
 
 protected:
-
+	TScriptInterface<ITCInventoryInterface> InventoryInterface;
+	
 	UPROPERTY()
 	UTCAbilitySystemComponent* AbilitySystemComponent;
 
@@ -46,10 +48,4 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Abilities)
 	TArray<TSubclassOf<UGameplayEffect>> Passive;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	FGameplayAbilitySpecHandle SlottedAbilities;
-
-	UPROPERTY(EditAnywhere)
-	UTCItem* Item;
 };

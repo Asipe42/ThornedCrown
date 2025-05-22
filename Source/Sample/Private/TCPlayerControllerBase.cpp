@@ -3,7 +3,15 @@
 
 #include "TCPlayerControllerBase.h"
 
-void ATCPlayerControllerBase::GetInventoryItems(TArray<UTCItem*>& OutItems, FPrimaryAssetType ItemType)
+void ATCPlayerControllerBase::AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel)
+{
+	for (int i = 0; i < ItemCount; i++)
+	{
+		InventoryItems.Add(NewItem);
+	}
+}
+
+void ATCPlayerControllerBase::GetInventoryItemsWithType(TArray<UTCItem*>& OutItems, FPrimaryAssetType ItemType)
 {
 	if (!ItemType.IsValid())
 	{
@@ -17,14 +25,4 @@ void ATCPlayerControllerBase::GetInventoryItems(TArray<UTCItem*>& OutItems, FPri
 			OutItems.Add(Item);
 		}
 	}
-}
-
-void ATCPlayerControllerBase::AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel)
-{
-	for (int i = 0; i < ItemCount; i++)
-	{
-		InventoryItems.Add(NewItem);
-	}
-
-	UE_LOG(LogTemp, Display, TEXT("Add Inventory Item"));
 }

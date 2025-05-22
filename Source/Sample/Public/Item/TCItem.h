@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TCGameplayAbility.h"
+#include "Ability/TCGameplayAbility.h"
 #include "Engine/DataAsset.h"
 #include "TCItem.generated.h"
 
@@ -11,7 +11,7 @@
  * 
  */
 UCLASS()
-class SAMPLE_API UTCItem : public UPrimaryDataAsset
+class SAMPLE_API UTCItem : public UPrimaryDataAsset 
 {
 	GENERATED_BODY()
 
