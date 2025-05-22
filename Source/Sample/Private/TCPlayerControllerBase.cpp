@@ -11,6 +11,24 @@ void ATCPlayerControllerBase::AddInventoryItem(UTCItem* NewItem, int32 ItemCount
 	}
 }
 
+void ATCPlayerControllerBase::RemoveInventoryItem()
+{
+	if (InventoryItems.Num() > 0)
+	{
+		InventoryItems.RemoveAt(0);
+	}
+}
+
+void ATCPlayerControllerBase::ClearInventory()
+{
+	
+}
+
+void ATCPlayerControllerBase::GetInventoryItem(UTCItem* OutItem)
+{
+	
+}
+
 void ATCPlayerControllerBase::GetInventoryItemsWithType(TArray<UTCItem*>& OutItems, FPrimaryAssetType ItemType)
 {
 	if (!ItemType.IsValid())

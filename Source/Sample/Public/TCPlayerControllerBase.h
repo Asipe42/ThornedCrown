@@ -18,11 +18,22 @@ class SAMPLE_API ATCPlayerControllerBase : public APlayerController, public ITCI
 
 public:
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	void AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel);
+	virtual void AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel) override;
 
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	virtual void RemoveInventoryItem() override;
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	virtual void ClearInventory() override;
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	virtual void GetInventoryItem(UTCItem* OutItem) override;
+	
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 	virtual void GetInventoryItemsWithType(TArray<UTCItem*>& OutItems, FPrimaryAssetType ItemType) override;
 
+	
 protected:
+	UPROPERTY()
 	TArray<UTCItem*> InventoryItems;
 };

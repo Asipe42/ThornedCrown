@@ -23,5 +23,9 @@ class SAMPLE_API ITCInventoryInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	virtual void AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel) = 0;
+	virtual void RemoveInventoryItem() = 0;
+	virtual void ClearInventory() = 0;
+	virtual void GetInventoryItem(UTCItem* OutItem) = 0;
 	virtual void GetInventoryItemsWithType(TArray<UTCItem*>& OutItems, FPrimaryAssetType ItemType) = 0;
 };
