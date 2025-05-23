@@ -32,6 +32,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 	virtual bool RemoveInventoryItem(UTCItem* RemovedItem, int32 RemovedCount);
 
+	UFUNCTION(BlueprintCallable, Category = Inventory)
 	virtual bool GetInventoryItemData(UTCItem* Item, FTCItemData& ItemData) const override;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
