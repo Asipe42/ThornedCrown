@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TCCommonTypes.h"
 #include "TCInventoryInterface.h"
 #include "Ability/TCAbilitySystemComponent.h"
 #include "Ability/TCAttributeSet.h"
@@ -34,6 +35,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	void GetActiveAbilitiesWithTags(FGameplayTagContainer GameplayTagContainer, TArray<UTCGameplayAbility*>& ActiveAbilities) const;
 
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	bool ActivateAbility(FTCItemSlot ItemSlot, bool bAllowRemoteActivation = true);
+	
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	bool ActivateAbilities(bool bAllowRemoteActivation = true);
 

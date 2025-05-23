@@ -17,4 +17,6 @@ class SAMPLE_API UTCAssetManager : public UAssetManager
 public:
 	static const FPrimaryAssetType PotionItemType;
 	static const FPrimaryAssetType WeaponItemType;
+
+	static UTCAssetManager& Get();
 };

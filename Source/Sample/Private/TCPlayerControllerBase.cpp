@@ -3,6 +3,22 @@
 
 #include "TCPlayerControllerBase.h"
 
+void ATCPlayerControllerBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	InitializeInventory();
+	InitializeSlot();
+}
+
+void ATCPlayerControllerBase::InitializeInventory()
+{
+}
+
+void ATCPlayerControllerBase::InitializeSlot()
+{
+}
+
 void ATCPlayerControllerBase::AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel)
 {
 	for (int i = 0; i < ItemCount; i++)

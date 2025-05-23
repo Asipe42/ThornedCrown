@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TCCommonTypes.h"
 #include "TCInventoryInterface.h"
 #include "GameFramework/PlayerController.h"
 #include "Item/TCItem.h"
@@ -17,6 +18,11 @@ class SAMPLE_API ATCPlayerControllerBase : public APlayerController, public ITCI
 	GENERATED_BODY()
 
 public:
+	virtual void BeginPlay() override;
+
+	void InitializeInventory();
+	void InitializeSlot();
+	
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 	virtual void AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel) override;
 
