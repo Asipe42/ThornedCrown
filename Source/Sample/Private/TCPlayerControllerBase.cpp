@@ -143,5 +143,5 @@ int32 ATCPlayerControllerBase::GetInventoryItemLevel(UTCItem* Item) const
 
 void ATCPlayerControllerBase::NotifyInventoryItemChanged()
 {
-	OnChangedInventoryItem();
+	InventoryItemChanged();
 }

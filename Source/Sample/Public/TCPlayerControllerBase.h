@@ -51,7 +51,7 @@ public:
 	virtual bool GetInventoryItemData(UTCItem* Item, FTCItemData& ItemData) const override;
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = Inventory)
-	void OnChangedInventoryItem();
+	void InventoryItemChanged();
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
 	TMap<UTCItem*, FTCItemData> InventoryItem;
