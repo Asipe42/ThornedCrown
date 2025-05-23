@@ -3,20 +3,24 @@
 
 #include "TCPlayerControllerBase.h"
 
+#include "TCAssetManager.h"
+#include "Item/TCWeaponItem.h"
+
 void ATCPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	InitializeInventory();
-	InitializeSlot();
+	
 }
 
-void ATCPlayerControllerBase::InitializeInventory()
+void ATCPlayerControllerBase::InitializeSlot(UTCItem* InitializeWeaponItem, UTCItem* InitializePotionItem)
 {
+	InventorySlots.Add(FTCItemSlot(UTCAssetManager::WeaponItemType, 0), InitializeWeaponItem);
+	InventorySlots.Add(FTCItemSlot(UTCAssetManager::PotionItemType, 0), InitializePotionItem);
 }
 
-void ATCPlayerControllerBase::InitializeSlot()
+UTCItem* ATCPlayerControllerBase::GetInventorySlotItem(const FTCItemSlot& Slot) const
 {
+	return InventorySlots[Slot];
 }
 
 void ATCPlayerControllerBase::AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel)

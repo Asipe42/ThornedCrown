@@ -16,6 +16,8 @@ class SAMPLE_API UTCWeaponItem : public UTCItem
 	GENERATED_BODY()
 
 public:
+
+	
 	UTCWeaponItem()
 	{
 		ItemType = UTCAssetManager::WeaponItemType;

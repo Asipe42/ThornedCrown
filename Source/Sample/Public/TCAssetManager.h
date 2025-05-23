@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Engine/AssetManager.h"
+#include "Item/TCItem.h"
+#include "UObject/PrimaryAssetId.h"
 #include "TCAssetManager.generated.h"
 
 /**
@@ -19,4 +21,5 @@ public:
 	static const FPrimaryAssetType WeaponItemType;
 
 	static UTCAssetManager& Get();
+	UTCItem* ForceLoadInfo(const FPrimaryAssetId& PrimaryAssetId) const;
 };

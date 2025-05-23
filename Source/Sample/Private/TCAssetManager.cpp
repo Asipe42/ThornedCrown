@@ -3,6 +3,8 @@
 
 #include "TCAssetManager.h"
 
+#include "Item/TCItem.h"
+
 const FPrimaryAssetType UTCAssetManager::PotionItemType = TEXT("Potion");
 const FPrimaryAssetType UTCAssetManager::WeaponItemType = TEXT("Weapon");
 
@@ -16,4 +18,12 @@ UTCAssetManager& UTCAssetManager::Get()
 	{
 		return *NewObject<UTCAssetManager>();
 	}
+}
+
+UTCItem* UTCAssetManager::ForceLoadInfo(const FPrimaryAssetId& PrimaryAssetId) const
+{
+	FSoftObjectPath ItemPath = GetPrimaryAssetPath(PrimaryAssetId);
+	UTCItem* LoadedItem = Cast<UTCItem>(ItemPath.TryLoad());
+
+	return LoadedItem;
 }

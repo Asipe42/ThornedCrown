@@ -90,9 +90,23 @@ void ATCCharacterBase::GetActiveAbilitiesWithTags(FGameplayTagContainer Gameplay
 	}
 }
 
-bool ATCCharacterBase::ActivateAbility(FTCItemSlot ItemSlot, bool bAllowRemoteActivation)
+bool ATCCharacterBase::ActivateAbility(const FTCItemSlot ItemSlot, const bool bAllowRemoteActivation)
 {
-	return true;
+	if (AbilitySystemComponent)
+	{
+		UTCItem* Item = InventoryInterface->GetInventorySlotItem(ItemSlot);
+		if (!Item)
+		{
+			return false;
+		}
+		
+		const FGameplayAbilitySpecHandle Handle = AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(Item->GrantedAbility, Item->AbilityLevel, INDEX_NONE, this));
+		AbilitySystemComponent->TryActivateAbility(Handle, bAllowRemoteActivation);
+
+		return true;
+	}
+	
+	return false;
 }
 
 bool ATCCharacterBase::ActivateAbilities(bool bAllowRemoteActivation)

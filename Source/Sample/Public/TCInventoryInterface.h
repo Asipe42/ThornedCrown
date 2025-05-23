@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Item/TCItem.h"
 #include "UObject/Interface.h"
+#include "TCCommonTypes.h"
 #include "TCInventoryInterface.generated.h"
 
 // This class does not need to be modified.
@@ -23,6 +24,8 @@ class SAMPLE_API ITCInventoryInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	virtual UTCItem* GetInventorySlotItem(const FTCItemSlot& Slot) const = 0;
+	
 	virtual void AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel) = 0;
 	virtual void RemoveInventoryItem() = 0;
 	virtual void ClearInventory() = 0;

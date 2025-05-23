@@ -7,6 +7,7 @@
 #include "TCInventoryInterface.h"
 #include "GameFramework/PlayerController.h"
 #include "Item/TCItem.h"
+#include "Item/TCWeaponItem.h"
 #include "TCPlayerControllerBase.generated.h"
 
 /**
@@ -20,8 +21,10 @@ class SAMPLE_API ATCPlayerControllerBase : public APlayerController, public ITCI
 public:
 	virtual void BeginPlay() override;
 
-	void InitializeInventory();
-	void InitializeSlot();
+	UFUNCTION(BlueprintCallable)
+	void InitializeSlot(UTCItem* InitializeWeaponItem, UTCItem* InitializePotionItem);
+
+	virtual UTCItem* GetInventorySlotItem(const FTCItemSlot& Slot) const override;
 	
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 	virtual void AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel) override;
@@ -38,8 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 	virtual void GetInventoryItemsWithType(TArray<UTCItem*>& OutItems, FPrimaryAssetType ItemType) override;
 
-	
-protected:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
 	TArray<UTCItem*> InventoryItems;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
+	TMap<FTCItemSlot, UTCItem*> InventorySlots;
 };
