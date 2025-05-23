@@ -43,3 +43,30 @@ struct SAMPLE_API FTCItemSlot
 		return Hash;
 	}
 };
+
+USTRUCT(BlueprintType)
+struct SAMPLE_API FTCItemData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
+	int32 ItemCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
+	int32 ItemLevel;
+
+	bool operator==(const FTCItemData& Other) const
+	{
+		return ItemCount == Other.ItemCount && ItemLevel == Other.ItemLevel;
+	}
+	bool operator!=(const FTCItemData& Other) const
+	{
+		return !(*this == Other);
+	}
+
+	void UpdateItemData(const FTCItemData& Other)
+	{
+		ItemCount = ItemCount + Other.ItemCount;
+		ItemLevel = Other.ItemLevel;
+	}
+};

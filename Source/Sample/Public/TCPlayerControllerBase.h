@@ -7,7 +7,6 @@
 #include "TCInventoryInterface.h"
 #include "GameFramework/PlayerController.h"
 #include "Item/TCItem.h"
-#include "Item/TCWeaponItem.h"
 #include "TCPlayerControllerBase.generated.h"
 
 /**
@@ -24,26 +23,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InitializeSlot(UTCItem* InitializeWeaponItem, UTCItem* InitializePotionItem);
 
-	virtual UTCItem* GetInventorySlotItem(const FTCItemSlot& Slot) const override;
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	virtual UTCItem* GetSlottedItem(const FTCItemSlot& ItemSlot) const override;
 	
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	virtual void AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel) override;
-
-	UFUNCTION(BlueprintCallable, Category = Inventory)
-	virtual void RemoveInventoryItem() override;
-
-	UFUNCTION(BlueprintCallable, Category = Inventory)
-	virtual void ClearInventory() override;
-
-	UFUNCTION(BlueprintCallable, Category = Inventory)
-	virtual void GetInventoryItem(UTCItem* OutItem) override;
+	bool AddInventoryItem(UTCItem* NewItem, int32 ItemCount = 1, int32 ItemLevel = 1, bool bAutoSlot = true);
 	
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	virtual void GetInventoryItemsWithType(TArray<UTCItem*>& OutItems, FPrimaryAssetType ItemType) override;
+	virtual bool RemoveInventoryItem(UTCItem* RemovedItem, int32 RemovedCount);
+
+	virtual bool GetInventoryItemData(UTCItem* Item, FTCItemData& ItemData) const override;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
+	TMap<UTCItem*, FTCItemData> InventoryItem;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
-	TArray<UTCItem*> InventoryItems;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
-	TMap<FTCItemSlot, UTCItem*> InventorySlots;
+	TMap<FTCItemSlot, UTCItem*> SlottedItem;
 };

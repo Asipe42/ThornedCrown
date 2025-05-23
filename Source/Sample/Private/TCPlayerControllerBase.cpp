@@ -4,7 +4,6 @@
 #include "TCPlayerControllerBase.h"
 
 #include "TCAssetManager.h"
-#include "Item/TCWeaponItem.h"
 
 void ATCPlayerControllerBase::BeginPlay()
 {
@@ -14,53 +13,73 @@ void ATCPlayerControllerBase::BeginPlay()
 
 void ATCPlayerControllerBase::InitializeSlot(UTCItem* InitializeWeaponItem, UTCItem* InitializePotionItem)
 {
-	InventorySlots.Add(FTCItemSlot(UTCAssetManager::WeaponItemType, 0), InitializeWeaponItem);
-	InventorySlots.Add(FTCItemSlot(UTCAssetManager::PotionItemType, 0), InitializePotionItem);
+	SlottedItem.Add(FTCItemSlot(UTCAssetManager::WeaponItemType, 0), InitializeWeaponItem);
+	SlottedItem.Add(FTCItemSlot(UTCAssetManager::PotionItemType, 0), InitializePotionItem);
+
+	InventoryItem.Add(InitializeWeaponItem, FTCItemData(1, 1));
 }
 
-UTCItem* ATCPlayerControllerBase::GetInventorySlotItem(const FTCItemSlot& Slot) const
+UTCItem* ATCPlayerControllerBase::GetSlottedItem(const FTCItemSlot& ItemSlot) const
 {
-	return InventorySlots[Slot];
-}
+	UTCItem* const* FoundItem = SlottedItem.Find(ItemSlot);
 
-void ATCPlayerControllerBase::AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel)
-{
-	for (int i = 0; i < ItemCount; i++)
+	if (FoundItem)
 	{
-		InventoryItems.Add(NewItem);
+		return *FoundItem;
 	}
+
+	return nullptr;
 }
 
-void ATCPlayerControllerBase::RemoveInventoryItem()
+bool ATCPlayerControllerBase::AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel, bool bAutoSlot)
 {
-	if (InventoryItems.Num() > 0)
-	{
-		InventoryItems.RemoveAt(0);
-	}
-}
-
-void ATCPlayerControllerBase::ClearInventory()
-{
+	FTCItemData OldData;
+	GetInventoryItemData(NewItem, OldData);
 	
-}
+	FTCItemData NewData = OldData;
+	NewData.UpdateItemData(FTCItemData(ItemCount, ItemLevel));
 
-void ATCPlayerControllerBase::GetInventoryItem(UTCItem* OutItem)
-{
-	
-}
-
-void ATCPlayerControllerBase::GetInventoryItemsWithType(TArray<UTCItem*>& OutItems, FPrimaryAssetType ItemType)
-{
-	if (!ItemType.IsValid())
+	if (OldData != NewData)
 	{
-		return;
+		InventoryItem.Add(NewItem, NewData);
+		return true;
 	}
 
-	for (auto Item : InventoryItems)
+	return false;
+}
+
+bool ATCPlayerControllerBase::GetInventoryItemData(UTCItem* Item, FTCItemData& ItemData) const
+{
+	if (const FTCItemData* FoundData = InventoryItem.Find(Item))
 	{
-		if (Item->ItemType == ItemType)
-		{
-			OutItems.Add(Item);
-		}
+		ItemData = *FoundData;
+		return true;
 	}
+
+	ItemData = FTCItemData();
+	return false;
+}
+
+bool ATCPlayerControllerBase::RemoveInventoryItem(UTCItem* RemovedItem, int32 RemovedCount)
+{
+	if (!RemovedItem)
+	{
+		// TODO: Log Error
+		return false;
+	}
+
+	FTCItemData NewData;
+	GetInventoryItemData(RemovedItem, NewData);
+
+	NewData.ItemCount -= RemovedCount;
+	if (NewData.ItemCount > 0)
+	{
+		InventoryItem.Add(RemovedItem, NewData);
+	}
+	else
+	{
+		InventoryItem.Remove(RemovedItem);
+	}
+
+	return true;
 }

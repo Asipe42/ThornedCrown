@@ -22,13 +22,7 @@ class SAMPLE_API ITCInventoryInterface
 {
 	GENERATED_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual UTCItem* GetInventorySlotItem(const FTCItemSlot& Slot) const = 0;
-	
-	virtual void AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel) = 0;
-	virtual void RemoveInventoryItem() = 0;
-	virtual void ClearInventory() = 0;
-	virtual void GetInventoryItem(UTCItem* OutItem) = 0;
-	virtual void GetInventoryItemsWithType(TArray<UTCItem*>& OutItems, FPrimaryAssetType ItemType) = 0;
+	virtual UTCItem* GetSlottedItem(const FTCItemSlot& Slot) const = 0;
+	virtual bool GetInventoryItemData(UTCItem* Item, FTCItemData& ItemData) const = 0;
 };

@@ -90,39 +90,29 @@ void ATCCharacterBase::GetActiveAbilitiesWithTags(FGameplayTagContainer Gameplay
 	}
 }
 
-bool ATCCharacterBase::ActivateAbility(const FTCItemSlot ItemSlot, const bool bAllowRemoteActivation)
+bool ATCCharacterBase::ActivateAbilityWithItemSlot(const FTCItemSlot ItemSlot, const bool bAllowRemoteActivation)
 {
 	if (AbilitySystemComponent)
 	{
-		UTCItem* Item = InventoryInterface->GetInventorySlotItem(ItemSlot);
-		if (!Item)
+		UTCItem* SlottedItem = InventoryInterface->GetSlottedItem(ItemSlot);
+		if (!SlottedItem)
 		{
 			return false;
 		}
+
+		FTCItemData SlottedItemData;
+		InventoryInterface->GetInventoryItemData(SlottedItem, SlottedItemData);
+		if (SlottedItemData.ItemCount == 0)
+		{
+			UE_LOG(LogTemp, Log, TEXT("SlottedItemData.ItemCount == 0"));
+			return false;
+		}
 		
-		const FGameplayAbilitySpecHandle Handle = AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(Item->GrantedAbility, Item->AbilityLevel, INDEX_NONE, this));
+		const FGameplayAbilitySpecHandle Handle = AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(SlottedItem->GrantedAbility, SlottedItem->AbilityLevel, INDEX_NONE, this));
 		AbilitySystemComponent->TryActivateAbility(Handle, bAllowRemoteActivation);
 
 		return true;
 	}
 	
-	return false;
-}
-
-bool ATCCharacterBase::ActivateAbilities(bool bAllowRemoteActivation)
-{
-	if (AbilitySystemComponent)
-	{
-		TArray<UTCItem*> Items;
-		InventoryInterface->GetInventoryItemsWithType(Items, UTCAssetManager::PotionItemType);
-
-		if (Items.Num() > 0)
-		{
-			FGameplayAbilitySpec spec = FGameplayAbilitySpec(Items[0]->GrantedAbility, Items[0]->AbilityLevel, INDEX_NONE, this);
-			FGameplayAbilitySpecHandle specHandle = AbilitySystemComponent->GiveAbility(spec);
-			AbilitySystemComponent->TryActivateAbility(specHandle, bAllowRemoteActivation);
-		}
-	}
-
 	return false;
 }
