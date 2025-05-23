@@ -69,6 +69,18 @@ void ATCPlayerControllerBase::GetSlottedItemData(const FTCItemSlot& Slot, FTCIte
 	OutData = FTCItemData();
 }
 
+bool ATCPlayerControllerBase::GetInventoryItemData(UTCItem* Item, FTCItemData& ItemData) const
+{
+	if (const FTCItemData* FoundData = InventoryItem.Find(Item))
+	{
+		ItemData = *FoundData;
+		return true;
+	}
+
+	ItemData = FTCItemData();
+	return false;
+}
+
 bool ATCPlayerControllerBase::AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel, bool bAutoSlot)
 {
 	FTCItemData OldData;
@@ -80,22 +92,11 @@ bool ATCPlayerControllerBase::AddInventoryItem(UTCItem* NewItem, int32 ItemCount
 	if (OldData != NewData)
 	{
 		InventoryItem.Add(NewItem, NewData);
-		return true;
 	}
-
-	return false;
-}
-
-bool ATCPlayerControllerBase::GetInventoryItemData(UTCItem* Item, FTCItemData& ItemData) const
-{
-	if (const FTCItemData* FoundData = InventoryItem.Find(Item))
-	{
-		ItemData = *FoundData;
-		return true;
-	}
-
-	ItemData = FTCItemData();
-	return false;
+	
+	NotifyInventoryItemChanged();
+	
+	return true;
 }
 
 bool ATCPlayerControllerBase::RemoveInventoryItem(UTCItem* RemovedItem, int32 RemovedCount)
@@ -119,6 +120,8 @@ bool ATCPlayerControllerBase::RemoveInventoryItem(UTCItem* RemovedItem, int32 Re
 		InventoryItem.Remove(RemovedItem);
 	}
 
+	NotifyInventoryItemChanged();
+
 	return true;
 }
 
@@ -136,4 +139,9 @@ int32 ATCPlayerControllerBase::GetInventoryItemLevel(UTCItem* Item) const
 	GetInventoryItemData(Item, ItemData);
 
 	return ItemData.ItemLevel;
+}
+
+void ATCPlayerControllerBase::NotifyInventoryItemChanged()
+{
+	OnChangedInventoryItem();
 }
