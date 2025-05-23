@@ -2,6 +2,8 @@
 
 
 #include "Ability/TCAttributeSet.h"
+#include "GameplayEffectExtension.h"
+#include "TCCharacterBase.h"
 
 void UTCAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
@@ -10,6 +12,26 @@ void UTCAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, fl
 	if (Attribute == GetMaxHealthAttribute())
 	{
 		AdjustAttributeForMaxChange(Health, MaxHealth, NewValue, GetHealthAttribute());
+	}
+}
+
+void UTCAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+	Super::PostGameplayEffectExecute(Data);
+
+	ATCCharacterBase* TargetCharacter = nullptr;
+	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
+	{
+		AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+		TargetCharacter = Cast<ATCCharacterBase>(TargetActor);
+	}
+	
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		if (TargetCharacter)
+		{
+			TargetCharacter->HandleHealthChanged(Data.EvaluatedData.Magnitude);
+		}
 	}
 }
 

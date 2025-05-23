@@ -49,4 +49,11 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Abilities)
 	TArray<TSubclassOf<UGameplayEffect>> Passive;
+
+	virtual void HandleHealthChanged(float DeltaValue);
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnChangedHealth(float DeltaValue);
+
+	friend UTCAttributeSet; 
 };

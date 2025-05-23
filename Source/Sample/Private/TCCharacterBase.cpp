@@ -116,3 +116,8 @@ bool ATCCharacterBase::ActivateAbilityWithItemSlot(const FTCItemSlot ItemSlot, c
 	
 	return false;
 }
+
+void ATCCharacterBase::HandleHealthChanged(float DeltaValue)
+{
+	OnChangedHealth(DeltaValue);
+}
