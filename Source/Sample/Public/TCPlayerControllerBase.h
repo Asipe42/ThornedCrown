@@ -21,7 +21,7 @@ public:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-	void InitializeSlot(UTCItem* InitializeWeaponItem, UTCItem* InitializePotionItem);
+	void InitializeSlot(TArray<UTCItem*> InitializeWeaponItem, UTCItem* InitializePotionItem);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 	virtual UTCItem* GetSlottedItem(const FTCItemSlot& ItemSlot) const override;

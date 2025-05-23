@@ -11,12 +11,15 @@ void ATCPlayerControllerBase::BeginPlay()
 	
 }
 
-void ATCPlayerControllerBase::InitializeSlot(UTCItem* InitializeWeaponItem, UTCItem* InitializePotionItem)
+void ATCPlayerControllerBase::InitializeSlot(TArray<UTCItem*> InitializeWeaponItem, UTCItem* InitializePotionItem)
 {
-	SlottedItem.Add(FTCItemSlot(UTCAssetManager::WeaponItemType, 0), InitializeWeaponItem);
 	SlottedItem.Add(FTCItemSlot(UTCAssetManager::PotionItemType, 0), InitializePotionItem);
 
-	InventoryItem.Add(InitializeWeaponItem, FTCItemData(1, 1));
+	for (int32 i = 0; i < InitializeWeaponItem.Num(); ++i)
+	{
+		SlottedItem.Add(FTCItemSlot(UTCAssetManager::WeaponItemType, i), InitializeWeaponItem[i]);
+		InventoryItem.Add(InitializeWeaponItem[i], FTCItemData(1, 1));
+	}
 }
 
 UTCItem* ATCPlayerControllerBase::GetSlottedItem(const FTCItemSlot& ItemSlot) const
