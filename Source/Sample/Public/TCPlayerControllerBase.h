@@ -24,7 +24,16 @@ public:
 	void InitializeSlot(TArray<UTCItem*> InitializeWeaponItem, UTCItem* InitializePotionItem);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	virtual UTCItem* GetSlottedItem(const FTCItemSlot& ItemSlot) const override;
+	virtual UTCItem* GetSlottedItem(const FTCItemSlot& Slot) const override;
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	int32 GetSlottedItemCount(const FTCItemSlot& Slot) const;
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	int32 GetSlottedItemLevel(const FTCItemSlot& Slot) const;
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	void GetSlottedItemData(const FTCItemSlot& Slot, FTCItemData& OutData) const;
 	
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 	bool AddInventoryItem(UTCItem* NewItem, int32 ItemCount = 1, int32 ItemLevel = 1, bool bAutoSlot = true);
@@ -32,6 +41,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 	virtual bool RemoveInventoryItem(UTCItem* RemovedItem, int32 RemovedCount);
 
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	int32 GetInventoryItemCount(UTCItem* Item) const;
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+	int32 GetInventoryItemLevel(UTCItem* Item) const;
+	
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 	virtual bool GetInventoryItemData(UTCItem* Item, FTCItemData& ItemData) const override;
 	

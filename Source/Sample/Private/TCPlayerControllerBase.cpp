@@ -24,14 +24,49 @@ void ATCPlayerControllerBase::InitializeSlot(TArray<UTCItem*> InitializeWeaponIt
 
 UTCItem* ATCPlayerControllerBase::GetSlottedItem(const FTCItemSlot& ItemSlot) const
 {
-	UTCItem* const* FoundItem = SlottedItem.Find(ItemSlot);
-
-	if (FoundItem)
+	if (UTCItem* const* FoundItem = SlottedItem.Find(ItemSlot))
 	{
 		return *FoundItem;
 	}
 
 	return nullptr;
+}
+
+int32 ATCPlayerControllerBase::GetSlottedItemCount(const FTCItemSlot& Slot) const
+{
+	if (UTCItem* FoundSlottedItem = GetSlottedItem(Slot))
+	{
+		FTCItemData ItemData;
+		GetInventoryItemData(FoundSlottedItem, ItemData);
+
+		return ItemData.ItemCount;
+	}
+
+	return 0;
+}
+
+int32 ATCPlayerControllerBase::GetSlottedItemLevel(const FTCItemSlot& Slot) const
+{
+	if (UTCItem* FoundSlottedItem = GetSlottedItem(Slot))
+	{
+		FTCItemData ItemData;
+		GetInventoryItemData(FoundSlottedItem, ItemData);
+
+		return ItemData.ItemLevel;
+	}
+
+	return 0;
+}
+
+void ATCPlayerControllerBase::GetSlottedItemData(const FTCItemSlot& Slot, FTCItemData& OutData) const
+{
+	if (UTCItem* FoundSlottedItem = GetSlottedItem(Slot))
+	{
+		GetInventoryItemData(FoundSlottedItem, OutData);
+		return;
+	}
+
+	OutData = FTCItemData();
 }
 
 bool ATCPlayerControllerBase::AddInventoryItem(UTCItem* NewItem, int32 ItemCount, int32 ItemLevel, bool bAutoSlot)
@@ -85,4 +120,20 @@ bool ATCPlayerControllerBase::RemoveInventoryItem(UTCItem* RemovedItem, int32 Re
 	}
 
 	return true;
+}
+
+int32 ATCPlayerControllerBase::GetInventoryItemCount(UTCItem* Item) const
+{
+	FTCItemData ItemData;
+	GetInventoryItemData(Item, ItemData);
+
+	return ItemData.ItemCount;
+}
+
+int32 ATCPlayerControllerBase::GetInventoryItemLevel(UTCItem* Item) const
+{
+	FTCItemData ItemData;
+	GetInventoryItemData(Item, ItemData);
+
+	return ItemData.ItemLevel;
 }
